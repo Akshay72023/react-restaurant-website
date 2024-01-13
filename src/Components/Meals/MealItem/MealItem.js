@@ -1,9 +1,8 @@
-// Import the CSS module
+import MealItemForm from './MealItemForm';
 import classes from './MealItem.module.css';
 
-// MealItem component
+
 const MealItem = (props) => {
-  // Format the price with two decimal places
   const price = `$${props.price.toFixed(2)}`;
 
   return (
@@ -13,11 +12,12 @@ const MealItem = (props) => {
         <div className={classes.description}>{props.description}</div>
         <div className={classes.price}>{price}</div>
       </div>
-      {/* The following div is empty - you can add content here if needed */}
-      <div></div>
+      <div>
+        <MealItemForm />
+      </div>
     </li>
   );
 };
 
-// Export the component
+
 export default MealItem;
