@@ -11,23 +11,59 @@ const Cart = (props) => {
   useEffect(() => {
     const quantities = {};
     cartCtx.items.forEach((item) => {
-      quantities[item.name] = (quantities[item.name] || 0) + +item.quantity;
+      quantities[item.name] = {
+        quantity: (quantities[item.name]?.quantity || 0) + +item.quantity,
+        price: item.price,
+      };
     });
     setItemQuantities(quantities);
+    console.log(quantities);
   }, [cartCtx.items]);
+
+  const increaseQuantityHandler = (itemName) => {
+    const updatedQuantities = { ...itemQuantities };
+    updatedQuantities[itemName] = {
+      quantity: (updatedQuantities[itemName].quantity) + 1,
+      price: updatedQuantities[itemName].price,
+    };
+    setItemQuantities(updatedQuantities);
+  };
+
+  const decreaseQuantityHandler = (itemName) => {
+    const updatedQuantities = { ...itemQuantities };
+    updatedQuantities[itemName] = {
+      quantity: updatedQuantities[itemName].quantity - 1,
+      price: updatedQuantities[itemName].price,
+    };
+    if (updatedQuantities[itemName].quantity === 0) {
+      cartCtx.removeItem(itemName);    
+    }
+    setItemQuantities(updatedQuantities);
+  };
+
 
   const cartItems = (
     <ul className={classes['cart-items']}>
       {Object.keys(itemQuantities).map((itemName) => (
         <li key={itemName}>
-          {itemName} -{+itemQuantities[itemName]}
+          <div className={classes['cart-modal']}>
+            <div className={classes['cart-itemname']}>
+              <div>{itemName}</div>
+              <div>{+itemQuantities[itemName].quantity}</div>
+            </div>
+            <div className={classes['actions']}>
+              <button className={classes['actions button']} onClick={()=>decreaseQuantityHandler(itemName)}>-</button>
+              <button className={classes['actions button']} onClick={() => increaseQuantityHandler(itemName)}>+</button>
+            </div>
+          </div>
         </li>
       ))}
     </ul>
   );
 
   let totalPrice = 0;
-  cartCtx.items.forEach((item) => {
+  Object.keys(itemQuantities).forEach((itemName) => {
+    const item = itemQuantities[itemName];
     totalPrice += item.price * +item.quantity;
   });
 

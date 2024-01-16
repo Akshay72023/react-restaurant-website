@@ -38,7 +38,25 @@
     color: #8a2b06;
   }
   
-  .actions .button {
+.actions .button {
     background-color: #8a2b06;
     color: white;
+  }
+
+.cart-modal {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 2px solid brown; 
+    padding: 1rem 0; 
+  }
+  
+.cart-itemname {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+li {
+    border-bottom: 2px solid brown;
   }
